@@ -1,0 +1,53 @@
+<!-- 
+Beaker recipe for provisioning RHEL6 machine and installing Zing ZVM on it
+Recipe parameters:
+  * machine            hostname of the machine to be provisioned
+  * download_url       URL from where the RPMs and license file will be downloaded
+  * zing_tools_rpm     name of the RPM file with Zing system tools
+  * zing_zvm_rpm       name of the RPM file with Zing ZVM
+  * zing_license_rpm   name of the RPM file with Zing license daemon
+  * reserve_time       how logn the machine should be reserved, in secodns, e.g. 86400 for one day reservation
+-->
+<job retention_tag="scratch">
+	<whiteboard>
+		Provision RHEL-6.5 Server x86_64 and install Zing ZVM on it
+	</whiteboard>
+	<recipeSet priority="High">
+		<recipe kernel_options="console=ttyS0,115200 ksdevice=38:EA:A7:35:F8:4C" kernel_options_post="intel_idle.max_cstate=0" ks_meta="" role="RECIPE_MEMBERS" whiteboard="">
+			<autopick random="false"/>
+			<watchdog panic="ignore"/>
+			<packages/>
+			<ks_appends/>
+			<repos/>
+			<distroRequires>
+				<and>
+					<distro_family op="=" value="RedHatEnterpriseLinux6"/>
+					<distro_variant op="=" value="Server"/>
+					<distro_name op="=" value="RHEL-6.5"/>
+					<distro_arch op="=" value="x86_64"/>
+				</and>
+			</distroRequires>
+			<hostRequires>
+				<and>
+					<hostname op="=" value="${machine}"/>
+					<system_type op="=" value="Machine"/>
+				</and>
+			</hostRequires>
+			<partitions/>
+			<task name="/distribution/install" role="STANDALONE"/>
+			<task name="/tools/jdg/zing/zvm_install" role="STANDALONE">
+				<params>
+					<param name="DOWNLOAD_URL" value="${download_url}"/>
+					<param name="ZING_TOOLS_RPM" value="${zing_tools_rpm}"/>
+					<param name="ZING_ZVM_RPM" value="${zing_zvm_rpm}"/>
+					<param name="ZING_LICENSE_RPM" value="${zing_license_rpm}"/>
+				</params>
+			</task>
+			<task name="/distribution/reservesys" role="STANDALONE">
+				<params>
+					<param name="RESERVETIME" value="${reserve_time}"/>
+				</params>
+			</task>
+		</recipe>
+	</recipeSet>
+</job>
