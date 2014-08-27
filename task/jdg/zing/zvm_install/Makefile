@@ -19,7 +19,7 @@ PACKAGE_NAME=jdg
 RELATIVE_PATH=zing/zvm_install
 
 # Version of the Test. Used with make tag.
-export TESTVERSION=1.0
+export TESTVERSION=1.0.3
 
 # The combined namespace of the test.
 export TEST=/$(TOPLEVEL_NAMESPACE)/$(PACKAGE_NAME)/$(RELATIVE_PATH)
