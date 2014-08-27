@@ -1,13 +1,16 @@
+<!-- 
+Beaker recipe for provisioning RHEL6 machine and installing Zing ZVM on it
+Recipe parameters:
+  * machine            hostname of the machine to be provisioned
+  * download_url       URL from where the RPMs and license file will be downloaded
+  * zing_tools_rpm     name of the RPM file with Zing system tools
+  * zing_zvm_rpm       name of the RPM file with Zing ZVM
+  * zing_license_rpm   name of the RPM file with Zing license daemon
+  * reserve_time       how logn the machine should be reserved, in secodns, e.g. 86400 for one day reservation
+-->
 <job retention_tag="scratch">
 	<whiteboard>
 		Provision RHEL-6.5 Server x86_64 and install Zing ZVM on it
-		Recipe parameters:
-		  * machine            hostname of the machine to be provisioned
-		  * download_url       URL from where the RPMs and license file will be downloaded
-		  * zing_tools_rpm     name of the RPM file with Zing system tools
-		  * zing_zvm_rpm       name of the RPM file with Zing ZVM
-		  * zing_license_rpm   name of the RPM file with Zing license daemon
-		  * reserve_time       how logn the machine should be reserved, in secodns, e.g. 86400 for one day reservation
 	</whiteboard>
 	<recipeSet priority="High">
 		<recipe kernel_options="console=ttyS0,115200 ksdevice=38:EA:A7:35:F8:4C" kernel_options_post="intel_idle.max_cstate=0" ks_meta="" role="RECIPE_MEMBERS" whiteboard="">
