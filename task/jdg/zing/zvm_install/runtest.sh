@@ -12,4 +12,4 @@
 echo "root:redhat" | chpasswd
 
 chmod a+x ./install_zvm.sh
-rhts-run-simple-test "Zing ZMV install" "./install_zvm.sh $DOWNLOAD_URL $ZING_TOOLS_RPM $ZING_ZVM_RPM $ZING_LICENSE_RPM"
+rhts-run-simple-test "Zing_ZMV_install" "./install_zvm.sh $DOWNLOAD_URL $ZING_TOOLS_RPM $ZING_ZVM_RPM $ZING_LICENSE_RPM"
