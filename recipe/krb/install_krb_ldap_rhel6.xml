@@ -1,0 +1,44 @@
+<!-- 
+Beaker recipe for provisioning RHEL6 machine and installing Kerberos and LDAP tools.
+Also downloads keytab from provided URL.
+Recipe parameters:
+  * keytab_url       URL from where keytabs will e downloaded
+  * reserve_time     how logn the machine should be reserved, in secodns, e.g. 86400 for one day reservation
+-->
+<job retention_tag="scratch">
+ <whiteboard>
+    Provision RHEL-6.5 Server x86_64 and install Kerberos nd LDAP tools
+  </whiteboard>
+  <recipeSet priority="High">
+    <recipe kernel_options="" kernel_options_post="" ks_meta="" role="RECIPE_MEMBERS" whiteboard="">
+      <autopick random="false"/>
+      <watchdog panic="ignore"/>
+      <packages/>
+      <ks_appends/>
+      <repos/>
+      <distroRequires>
+	<and>
+	  <distro_family op="=" value="RedHatEnterpriseLinux6"/>
+	  <distro_variant op="=" value="Server"/>
+	  <distro_name op="=" value="RHEL-6.6"/>
+	  <distro_arch op="=" value="x86_64"/>
+	</and>
+      </distroRequires>
+      <hostRequires>
+	<system_type value="Machine"/>
+      </hostRequires>
+      <partitions/>
+      <task name="/distribution/install" role="STANDALONE"/>
+      <task name="/tools/jdg/krb/krb_ldap_install" role="STANDALONE">
+	<params>
+	  <param name="KEYTAB_URL" value="${keytab_url}"/>
+	</params>
+      </task>
+      <task name="/distribution/reservesys" role="STANDALONE">
+	<params>
+	  <param name="RESERVETIME" value="${reserve_time}"/>
+	</params>
+      </task>
+    </recipe>
+  </recipeSet>
+</job>
