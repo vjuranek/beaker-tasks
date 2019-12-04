@@ -1,0 +1,41 @@
+<!-- 
+Requires using only /dev/sda for installation and also specifies how the partitions should look like.
+When installing RHEL8 on machine with fibre channel, it uses all device for installation, but it can
+result into state when fc device is not useable as it contains e.g. root partition. This limits
+installtion to local machine disk.
+-->
+<job retention_tag="scratch">
+  <whiteboard>Fibre channle testing</whiteboard>
+  <recipeSet priority="High">
+    <recipe whiteboard="" role="RECIPE_MEMBERS" ks_meta="no_autopart" kernel_options="" kernel_options_post="">
+      <autopick random="false"/>
+      <watchdog panic="ignore"/>
+      <packages/>
+      <ks_appends>
+        <ks_append><![CDATA[
+part /boot --recommended --ondisk=sda --fstype=xfs
+part / --size=51200 --ondisk=sda --fstype=xfs
+part swap --recommended --ondisk=sda
+part /home --grow --ondisk=sda --fstype=xfs
+        ]]></ks_append>
+      </ks_appends>
+      <repos/>
+      <distroRequires>
+        <and>
+          <distro_family op="=" value="RedHatEnterpriseLinux8"/>
+          <distro_variant op="=" value="BaseOS"/>
+          <distro_name op="=" value="RHEL-8.1.0"/>
+          <distro_arch op="=" value="x86_64"/>
+        </and>
+      </distroRequires>
+      <hostRequires force="hades03"/>
+      <partitions/>
+      <task name="/distribution/check-install" role="STANDALONE"/>
+      <task name="/distribution/reservesys" role="STANDALONE">
+        <params>
+          <param name="RESERVETIME" value="356400"/>
+        </params>
+      </task>
+    </recipe>
+  </recipeSet>
+</job>
